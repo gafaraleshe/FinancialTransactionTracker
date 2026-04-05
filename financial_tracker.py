@@ -51,12 +51,15 @@ def add_transaction():
         except ValueError:
             print("Invalid input. Please enter a number.")
 
-    # Step 4: Enter the date with basic validation
+    # Step 4: Enter the date with validation using datetime module
     while True:
         date = input("Enter date (DD/MM/YYYY): ").strip()
-        if len(date) == 10 and date[2] == "/" and date[5] == "/":
+        try:
+            from datetime import datetime
+            datetime.strptime(date, "%d/%m/%Y")
             break
-        print("Invalid format. Please use DD/MM/YYYY.")
+        except ValueError:
+            print("Invalid date. Please enter a real date in DD/MM/YYYY format.")
 
     # Step 5: Create the transaction dictionary and add it to the list
     transaction = {
@@ -140,9 +143,16 @@ def delete_transaction():
         except ValueError:
             print("Invalid input. Please enter a number.")
 
-    # Remove the selected transaction from the list
-    removed = transactions.pop(choice - 1)
-    print(f"Deleted: {removed['type']} | {removed['category']} | £{removed['amount']:.2f}")
+    # Show the selected transaction and ask for confirmation before deleting
+    selected = transactions[choice - 1]
+    print(f"\nSelected: {selected['type']} | {selected['category']} | £{selected['amount']:.2f} | {selected['date']}")
+    confirm = input("Are you sure you want to delete this transaction? (yes/no): ").strip().lower()
+
+    if confirm == "yes":
+        removed = transactions.pop(choice - 1)
+        print(f"Deleted: {removed['type']} | {removed['category']} | £{removed['amount']:.2f}")
+    else:
+        print("Deletion cancelled.")
 
 
 def calculate_total_income():
