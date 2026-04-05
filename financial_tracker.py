@@ -1,4 +1,5 @@
 # Financial Transaction Tracker
+# By Gafar Aleshe
 # This program allows users to track income and expenses,
 # view transaction summaries, and manage their finances.
 
@@ -81,6 +82,13 @@ def view_transactions():
     filter_choice = input("Filter by category? (yes/no): ").strip().lower()
 
     if filter_choice == "yes":
+        # Collect and display all categories currently used in transactions
+        used_categories = []
+        for t in transactions:
+            if t["category"] not in used_categories:
+                used_categories.append(t["category"])
+        print("Available categories:", ", ".join(used_categories))
+
         category = input("Enter category name: ").strip().lower()
         # Use a loop to find matching transactions
         filtered = []
