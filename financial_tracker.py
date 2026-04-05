@@ -90,6 +90,11 @@ def view_transactions():
         print("Available categories:", ", ".join(used_categories))
 
         category = input("Enter category name: ").strip().lower()
+        # Validate that the entered category exists in the transactions
+        while category not in used_categories:
+            print("Invalid category. Please choose from the list above.")
+            category = input("Enter category name: ").strip().lower()
+
         # Use a loop to find matching transactions
         filtered = []
         for t in transactions:
